@@ -1,24 +1,41 @@
+version: '3.8'
+
 services:
   api_gateway:
-    build: api_gateway
+    build: ./api_gateway
     ports:
-      - "8000:8000"
+      - "${GATEWAY_PORT:-8000}:8000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=8000
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - JWT_SECRET=${JWT_SECRET:-your-secret-key}
+      - USERS_SERVICE_URL=http://service_users:8000
+      - ORDERS_SERVICE_URL=http://service_orders:8000
+      - CORS_ORIGIN=${CORS_ORIGIN:-*}
+    depends_on:
+      - service_users
+      - service_orders
     networks:
       - app-network
 
   service_users:
-    build: service_users
+    build: ./service_users
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=8000
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - JWT_SECRET=${JWT_SECRET:-your-secret-key}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-24h}
     networks:
       - app-network
 
   service_orders:
-    build: service_orders
+    build: ./service_orders
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=8000
+      - LOG_LEVEL=${LOG_LEVEL:-info}
     networks:
       - app-network
 
