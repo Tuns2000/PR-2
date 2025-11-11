@@ -70,39 +70,3 @@ docker-compose logs -f service_orders
 ```powershell
 docker-compose down
 ```
-
-## Файлы для проверки преподавателем
-
-1. **Код микросервисов:**
-   - `api_gateway/index.js`
-   - `service_users/index.js`
-   - `service_orders/index.js`
-
-2. **Документация:**
-   - `README.md` - основная
-   - `TEST_REPORT.md` - отчет о тестах
-   - `DEMO_INSTRUCTIONS.md` - для демо
-   - `docs/openapi.yaml` - API спецификация
-   - `docs/CHECKLIST.md` - чек-лист
-
-3. **Конфигурация:**
-   - `docker-compose.yml`
-   - `.env.development`, `.env.test`, `.env.production`
-
-4. **Тесты:**
-   - `docs/postman_collection.json`
-
-## Ключевые моменты для защиты
-
-✅ **Регистрация и вход** - работают
-✅ **JWT токены** - генерируются и проверяются
-✅ **Профиль** - можно читать и обновлять
-✅ **Заказы** - полный CRUD
-✅ **Пагинация** - page, limit, total
-✅ **Проверка прав** - 403 на чужие ресурсы ⭐
-✅ **Логирование** - Request ID во всех логах
-✅ **Circuit Breaker** - для надежности
-✅ **Rate Limiting** - 100 req/15min
-✅ **Docker** - 3 контейнера работают
-✅ **OpenAPI** - полная спецификация
-✅ **Postman** - коллекция с автотестами

@@ -211,35 +211,6 @@ JWT_EXPIRES_IN=24h
 CORS_ORIGIN=*
 ```
 
-## Локальная разработка (без Docker)
-
-**1. Установка зависимостей:**
-```bash
-cd api_gateway && npm install
-cd ../service_users && npm install
-cd ../service_orders && npm install
-```
-
-**2. Запуск сервисов в отдельных терминалах:**
-
-Терминал 1 (Users Service):
-```bash
-cd service_users
-PORT=8001 JWT_SECRET=your-secret node index.js
-```
-
-Терминал 2 (Orders Service):
-```bash
-cd service_orders
-PORT=8002 node index.js
-```
-
-Терминал 3 (API Gateway):
-```bash
-cd api_gateway
-PORT=8000 USERS_SERVICE_URL=http://localhost:8001 ORDERS_SERVICE_URL=http://localhost:8002 node index.js
-```
-
 ## Документация API
 
 Полная спецификация OpenAPI 3.0: `docs/openapi.yaml`
@@ -247,25 +218,6 @@ PORT=8000 USERS_SERVICE_URL=http://localhost:8001 ORDERS_SERVICE_URL=http://loca
 Можно просмотреть в:
 - [Swagger Editor](https://editor.swagger.io/)
 - [Swagger UI](https://swagger.io/tools/swagger-ui/)
-
-## Безопасность
-
-### Реализованные меры:
-- ✅ JWT аутентификация
-- ✅ Хеширование паролей (bcrypt)
-- ✅ Rate Limiting (100 req/15min)
-- ✅ Валидация входных данных (Zod)
-- ✅ CORS настройка
-- ✅ Circuit Breaker для устойчивости
-- ✅ Request ID для трассировки
-
-### Рекомендации для production:
-1. Смените `JWT_SECRET` на случайную строку длиной 32+ символов
-2. Настройте CORS на конкретные домены
-3. Добавьте HTTPS (например, через nginx)
-4. Используйте реальную БД вместо in-memory
-5. Настройте мониторинг и алерты
-6. Регулярно обновляйте зависимости
 
 ## Структура проекта
 
@@ -297,63 +249,7 @@ micro-task-template/
 
 ## Troubleshooting
 
-### Docker не запускается
-```bash
-# Проверьте статус Docker
-docker ps
 
-# Перезапустите Docker Desktop
-# Windows: Restart Docker Desktop from tray icon
-
-# Очистите старые образы
-docker system prune -a
-```
-
-### Порт 8000 занят
-```bash
-# Измените порт в .env файле
-GATEWAY_PORT=8080
-
-# Или найдите процесс
-netstat -ano | findstr :8000
-taskkill /PID <PID> /F
-```
-
-### Логи не видны
-```bash
-# Просмотр логов в реальном времени
-docker-compose logs -f
-
-# Логи конкретного сервиса
-docker-compose logs -f api_gateway
-```
-
-### Ошибка подключения между сервисами
-```bash
-# Проверьте сеть Docker
-docker network ls
-docker network inspect micro-task-template_app-network
-
-# Пересоздайте контейнеры
-docker-compose down
-docker-compose up --build
-```
-
-## Известные ограничения
-
-1. **In-memory база данных** - данные теряются при перезапуске
-2. **Отсутствие персистентности** - для production нужна БД (PostgreSQL, MongoDB)
-3. **Нет миграций БД** - схема данных зашита в коде
-4. **Базовая авторизация** - нет ролей admin/manager/user в полной мере
-5. **Без брокера сообщений** - события логируются, но не публикуются
-
-
-
-
-
-## Быстрый тест всей системы
-
-Создайте файл для быстрого тестирования:
 
 ````bash
 // filepath: c:\Users\arsen\Desktop\Tecno\PR-2\micro-task-template\test_api.ps1
