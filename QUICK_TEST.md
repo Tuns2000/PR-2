@@ -11,7 +11,7 @@ docker-compose up --build -d
 docker-compose ps
 ```
 
-## Быстрый тест API (копируй и вставляй в PowerShell)
+## Быстрый тест API
 
 ```powershell
 # 1. Health
